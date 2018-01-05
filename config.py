@@ -6,10 +6,10 @@ a few of the variables will be redacted
 
 username = "freedomunits_bot"
 
-password = "Tanpopo2!"
+password = " "
 
-client_id = "uE_rCzzj9OKNaA"
+client_id = "id"
 
-client_secret = "cIFr6dqxLm4bOLTBYdZHs5mPYwQ"
+client_secret = "secret"
 
-user_agent = "python:metric&imperialconverterbot:v1.0"
+user_agent = "agent"
