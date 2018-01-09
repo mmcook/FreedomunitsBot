@@ -1,6 +1,8 @@
 '''
 This file contains the main functions for the freedomunits_bot.
-
+This bot finds comments from r/all which contains either metric units
+(cm, kg, celsius) or imperial units (inches/feet, lb, fahrenheit) and
+replies to the comment with the converted value.
 '''
 
 import praw
@@ -30,7 +32,8 @@ def login():
 '''
 This bot is the main method of the bot, and finds the comments that contain the units 
 (that is not posted by the bot) and then extracts the value and unit within the comment.
-Then, after getting the converted value, 
+Then, after getting the converted value, it creates the body for the reply comment which
+changes depending if the unit is metric, imperial, or in feet and inches. 
 '''
 def run(reddit):
 	print("Get comments from r/test...")
@@ -166,8 +169,6 @@ def replied_comment(value, unit, conv_value, conv_unit):
 		reply_body = "In imperial units, " + value + " " + unit + " is equal to " + conv_value + ".\n"
 	
 	else:
-		print(conv_unit)
-		print(unit)
 		raise InvalidUnitError
 
 	reply_body += "\n---\n\n"
@@ -179,7 +180,10 @@ def replied_comment(value, unit, conv_value, conv_unit):
 	return reply_body 
 
 '''
-This method compares 
+This method compares the unit that the bot extracted and if the variable matches the
+following units, or sees if those units are included within the body of the comment.
+To determine which mode, if the former is needed the mode is set to "equal", and the
+latter way is denoted by mode set to "in"
 '''
 def unit_equals_to(unit, mode):
 	#Used for Line 57, find exact word that contains unit
@@ -218,15 +222,21 @@ def unit_equals_to(unit, mode):
 			return True
 		else:
 			return False
-
+'''
+Parent of InvalidUnitError class
+'''
 class Error(Exception):
 	pass
 
+'''
+This is a custom exception which will be raised when the unit is not either
+cm, inches, lb, kg, fahrenheit, nor celsius.
+'''
 class InvalidUnitError(Error):
 	pass
 
 '''
-This is the main program
+From this on is the main program
 '''
 reddit = login()
 
